@@ -203,6 +203,16 @@
   @keyframes fadeUp   { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
   @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
   @media(max-width:480px) { .controls{gap:8px} .btn{padding:10px 14px;font-size:0.8rem} .spacer{display:none} }
+
+  /* Landscape: menos padding vertical, textarea más baja para aprovechar el ancho */
+  @media(orientation: landscape) and (max-height: 500px) {
+    body { padding: 14px 16px 24px; }
+    header { margin-bottom: 14px; }
+    header h1 { font-size: 1.5rem; }
+    .header-eyebrow, .header-line, header p { display: none; }
+    #output { min-height: 120px; max-height: 200px; }
+    .card { border-radius: 12px; }
+  }
 </style>
 </head>
 <body>
