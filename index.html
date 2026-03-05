@@ -278,7 +278,15 @@
     document.getElementById('mainCard').style.opacity = '0.4';
     document.getElementById('mainCard').style.pointerEvents = 'none';
   }
-  let recognition, isRecording = false, fullText = '', pendingCapitalize = true;
+  let recognition, isRecording = false, pendingCapitalize = true;
+  // Recuperar texto guardado al abrir la app
+  let fullText = localStorage.getItem('dictado_texto') || '';
+  if (fullText) {
+    document.getElementById('output').value = fullText;
+    updateWordCount(); updateButtons();
+  }
+
+  function saveText() { localStorage.setItem('dictado_texto', fullText); }
   const COMMANDS = [
     { say: /punto\s*(y\s*)?aparte/gi, out: '.\n\n', cap: true },
     { say: /punto\s*y\s*coma/gi, out: ';', cap: false },
@@ -366,6 +374,7 @@
           updateOutput();
           updateWordCount();
           updateButtons();
+          saveText();
         }
       } else {
         // resultado parcial → mostrar en gris como vista previa
@@ -427,7 +436,7 @@
     btn.classList.remove('btn-danger'); btn.classList.add('btn-primary');
     updateButtons();
   }
-  function clearText() { fullText = ''; pendingCapitalize = true; document.getElementById('output').value = ''; document.getElementById('interim').textContent = ''; updateWordCount(); updateButtons(); }
+  function clearText() { fullText = ''; pendingCapitalize = true; localStorage.removeItem('dictado_texto'); document.getElementById('output').value = ''; document.getElementById('interim').textContent = ''; updateWordCount(); updateButtons(); }
   async function copyText() {
     const text = document.getElementById('output').value;
     if (!text) return;
@@ -442,7 +451,7 @@
     t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500);
   }
   function toggleCommands() { const l = document.getElementById('commandsList'); l.classList.toggle('open'); document.getElementById('chevron').textContent = l.classList.contains('open') ? '▲' : '▼'; }
-  document.getElementById('output').addEventListener('input', (e) => { fullText = e.target.value; updateWordCount(); updateButtons(); });
+  document.getElementById('output').addEventListener('input', (e) => { fullText = e.target.value; updateWordCount(); updateButtons(); saveText(); });
 
   // Registrar Service Worker para PWA offline
   if ('serviceWorker' in navigator) {
