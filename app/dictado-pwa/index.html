@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Dictado Profesional</title>
+<meta name="description" content="Dictá mensajes y emails con puntuación automática por voz. App gratuita, funciona en Chrome."/>
 
 <!-- PWA -->
 <link rel="manifest" href="manifest.json"/>
@@ -27,7 +28,7 @@
     --green-pale:#e8f2ec;
     --text:      #1a2e22;
     --text-soft: #4a6556;
-    --muted:     #8aab96;
+    --muted:     #5e8a6d;
     --danger:    #c0392b;
     --success:   #2d6a4f;
     --rec:       #c0392b;
@@ -50,7 +51,7 @@
   /* Header */
   header { text-align: center; margin-bottom: 28px; animation: fadeDown 0.6s ease both; }
   .header-eyebrow {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--green-lt);
@@ -66,7 +67,7 @@
     line-height: 1.1;
   }
   header h1 em { font-style: italic; color: var(--green-md); }
-  header p { margin-top: 8px; color: var(--muted); font-size: 0.76rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; }
+  header p { margin-top: 8px; color: var(--muted); font-size: 0.8rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; }
   .header-line { width: 36px; height: 2px; background: linear-gradient(90deg, transparent, var(--green-lt), transparent); margin: 12px auto 0; border-radius: 2px; }
 
   /* Card */
@@ -90,10 +91,10 @@
     border-bottom: 1px solid var(--border);
     background: var(--surface2);
   }
-  .status-pill { display: flex; align-items: center; gap: 8px; font-size: 0.71rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .status-pill { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); transition: all 0.3s; flex-shrink: 0; }
   .dot.recording { background: var(--rec); box-shadow: 0 0 0 0 rgba(192,57,43,0.4); animation: pulse 1.2s infinite; }
-  .word-count { font-size: 0.71rem; color: var(--muted); font-weight: 400; }
+  .word-count { font-size: 0.75rem; color: var(--muted); font-weight: 400; }
 
   /* Text area — fondo blanco puro, texto oscuro, muy legible */
   .text-area-wrap { padding: 20px 20px 8px; background: var(--surface); }
@@ -112,14 +113,14 @@
     font-weight: 400;
     caret-color: var(--green-md);
   }
-  #output::placeholder { color: #bbb; font-style: italic; font-weight: 300; }
+  #output::placeholder { color: #999; font-style: italic; font-weight: 300; }
 
   /* Interim — texto en vivo, verde suave */
   #interim {
     padding: 0 20px 14px;
     min-height: 24px;
     font-size: 0.88rem;
-    color: var(--green-lt);
+    color: var(--green-md);
     font-style: italic;
     font-family: 'Lato', sans-serif;
   }
@@ -129,7 +130,7 @@
     padding: 14px 20px;
     border-top: 1px solid var(--border);
     display: flex;
-    gap: 9px;
+    gap: 8px;
     flex-wrap: wrap;
     align-items: center;
     background: var(--surface2);
@@ -159,7 +160,9 @@
   .btn-wa { background: var(--wa); color: #fff; }
   .btn-wa:hover { background: #1ebe5a; transform: translateY(-1px); }
   .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+  .btn:focus-visible { outline: 2px solid var(--green-md); outline-offset: 2px; }
   .spacer { flex: 1; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
   /* Commands */
   .commands-card { width: 100%; max-width: 680px; margin-top: 14px; animation: fadeUp 0.6s 0.3s ease both; }
@@ -172,7 +175,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 0.71rem;
+    font-size: 0.75rem;
     color: var(--muted);
     font-weight: 700;
     text-transform: uppercase;
@@ -202,7 +205,20 @@
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(192,57,43,0.4)} 70%{box-shadow:0 0 0 8px rgba(192,57,43,0)} 100%{box-shadow:0 0 0 0 rgba(192,57,43,0)} }
   @keyframes fadeUp   { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
   @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
-  @media(max-width:480px) { .controls{gap:8px} .btn{padding:10px 14px;font-size:0.8rem} .spacer{display:none} }
+  @media(min-width:481px) and (max-width:768px) {
+    .card, .commands-card { max-width: 95%; }
+    body { padding: 24px 12px 36px; }
+  }
+  @media(max-width:480px) {
+    .controls { gap: 8px; }
+    .btn { padding: 10px 14px; font-size: 0.8rem; }
+    .spacer { display: none; }
+    #btnMic { width: 100%; justify-content: center; }
+    .commands-list { max-height: 260px; overflow-y: auto; }
+  }
+  @media(prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
 
   /* Landscape: menos padding vertical, textarea más baja para aprovechar el ancho */
   @media(orientation: landscape) and (max-height: 500px) {
@@ -234,18 +250,19 @@
     <span class="word-count" id="wordCount">0 palabras</span>
   </div>
   <div class="text-area-wrap">
+    <label for="output" class="sr-only">Texto dictado</label>
     <textarea id="output" placeholder="Tocá el micrófono y empezá a dictar…&#10;&#10;Decí 'coma', 'punto', 'punto aparte', 'signo de pregunta', etc."></textarea>
   </div>
-  <div id="interim"></div>
+  <div id="interim" role="status" aria-live="polite"></div>
   <div class="controls">
     <button class="btn btn-primary" id="btnMic" onclick="toggleRecording()">🎙️ Iniciar dictado</button>
-    <button class="btn btn-ghost" id="btnClear" onclick="clearText()" disabled>🗑️ Borrar</button>
     <div class="spacer"></div>
     <button class="btn btn-copy" id="btnCopy" onclick="copyText()" disabled>📋 Copiar</button>
     <button class="btn btn-wa" id="btnWA" onclick="shareWhatsApp()" disabled>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       WhatsApp
     </button>
+    <button class="btn btn-ghost" id="btnClear" onclick="clearText()" disabled>🗑️ Borrar</button>
   </div>
 </div>
 <div class="commands-card">
@@ -436,21 +453,38 @@
     btn.classList.remove('btn-danger'); btn.classList.add('btn-primary');
     updateButtons();
   }
-  function clearText() { fullText = ''; pendingCapitalize = true; localStorage.removeItem('dictado_texto'); document.getElementById('output').value = ''; document.getElementById('interim').textContent = ''; updateWordCount(); updateButtons(); }
+  let clearPending = false, clearTimer = null;
+  function clearText() {
+    if (!clearPending) {
+      clearPending = true;
+      const btn = document.getElementById('btnClear');
+      btn.textContent = '¿Seguro?';
+      clearTimer = setTimeout(() => { clearPending = false; btn.innerHTML = '🗑️ Borrar'; }, 3000);
+      return;
+    }
+    clearPending = false; clearTimeout(clearTimer);
+    document.getElementById('btnClear').innerHTML = '🗑️ Borrar';
+    fullText = ''; pendingCapitalize = true; localStorage.removeItem('dictado_texto');
+    document.getElementById('output').value = ''; document.getElementById('interim').textContent = '';
+    updateWordCount(); updateButtons();
+  }
   async function copyText() {
     const text = document.getElementById('output').value;
     if (!text) return;
-    try { await navigator.clipboard.writeText(text); showToast('✓ Copiado al portapapeles'); }
-    catch(e) { document.getElementById('output').select(); document.execCommand('copy'); showToast('✓ Copiado al portapapeles'); }
+    const wc = text.trim().split(/\s+/).filter(x=>x.length).length;
+    const msg = '✓ Copiado (' + wc + (wc===1?' palabra':' palabras') + ')';
+    try { await navigator.clipboard.writeText(text); showToast(msg); }
+    catch(e) { document.getElementById('output').select(); document.execCommand('copy'); showToast(msg); }
   }
   function shareWhatsApp() { const t = document.getElementById('output').value.trim(); if (!t) return; window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank'); }
   function showToast(msg, isError=false) {
     const t = document.getElementById('toast'); t.textContent = msg;
     t.style.background = isError ? 'var(--danger)' : 'var(--success)';
-    t.style.color = isError ? '#fff' : '#0f1117';
+    t.style.color = '#fff';
     t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500);
   }
-  function toggleCommands() { const l = document.getElementById('commandsList'); l.classList.toggle('open'); document.getElementById('chevron').textContent = l.classList.contains('open') ? '▲' : '▼'; }
+  function toggleCommands() { const l = document.getElementById('commandsList'); l.classList.toggle('open'); document.getElementById('chevron').textContent = l.classList.contains('open') ? '▲' : '▼'; localStorage.setItem('dictado_cmds_seen', '1'); }
+  if (!localStorage.getItem('dictado_cmds_seen')) { document.getElementById('commandsList').classList.add('open'); document.getElementById('chevron').textContent = '▲'; }
   document.getElementById('output').addEventListener('input', (e) => { fullText = e.target.value; updateWordCount(); updateButtons(); saveText(); });
 
   // Registrar Service Worker para PWA offline
