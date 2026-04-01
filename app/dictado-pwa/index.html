@@ -12,25 +12,25 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Dictado"/>
-<meta name="theme-color" content="#171717"/>
+<meta name="theme-color" content="#6d5acd"/>
 <link rel="apple-touch-icon" href="icon-192.png"/>
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg:        #fafafa;
+    --bg:        #f8f7f5;
     --surface:   #ffffff;
-    --surface2:  #f5f5f5;
-    --border:    #e5e5e5;
-    --text:      #171717;
+    --surface2:  #f3f2ef;
+    --border:    #e5e3df;
+    --text:      #1a1a1a;
     --text-soft: #525252;
     --muted:     #737373;
-    --accent:    #2563eb;
-    --accent-hover: #1d4ed8;
-    --accent-soft: #eff6ff;
+    --accent:    #6d5acd;
+    --accent-hover: #5b47b5;
+    --accent-soft: #f0edf9;
     --danger:    #dc2626;
     --danger-soft: rgba(220,38,38,0.08);
-    --success:   #171717;
+    --success:   #1a1a1a;
     --rec:       #dc2626;
     --wa:        #25d366;
   }
@@ -50,11 +50,19 @@
   /* Header */
   header { text-align: center; margin-bottom: 24px; }
   header h1 {
-    font-size: clamp(1.4rem, 4vw, 1.75rem);
-    font-weight: 600;
+    font-size: clamp(1.5rem, 4vw, 1.85rem);
+    font-weight: 700;
     color: var(--text);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     line-height: 1.2;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.01em;
   }
 
   /* Card */
@@ -139,8 +147,8 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 1px 3px rgba(37,99,235,0.3); }
-  .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 1px 3px rgba(109,90,205,0.3); }
+  .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(109,90,205,0.25); }
   .btn-danger { background: var(--danger-soft); color: var(--rec); border: 1px solid rgba(220,38,38,0.2); }
   .btn-danger:hover { background: rgba(220,38,38,0.12); }
   .btn-ghost { background: transparent; color: var(--text-soft); border: 1px solid var(--border); }
@@ -209,6 +217,18 @@
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .no-support { background: var(--danger-soft); border: 1px solid rgba(220,38,38,0.2); border-radius: 8px; padding: 14px 16px; color: var(--danger); font-size: 0.85rem; line-height: 1.6; max-width: 680px; width: 100%; margin-bottom: 12px; display: none; }
 
+  /* Footer */
+  .footer {
+    margin-top: 32px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+  }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .footer a:hover { text-decoration: underline; }
+
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(220,38,38,0.4)} 70%{box-shadow:0 0 0 8px rgba(220,38,38,0)} 100%{box-shadow:0 0 0 0 rgba(220,38,38,0)} }
 
   @media(min-width:481px) and (max-width:768px) {
@@ -228,16 +248,19 @@
 
   @media(orientation: landscape) and (max-height: 500px) {
     body { padding: 14px 16px 24px; }
-    header { margin-bottom: 12px; }
-    header h1 { font-size: 1.25rem; }
+    header { margin-bottom: 10px; }
+    header h1 { font-size: 1.2rem; }
+    header p { display: none; }
     #output { min-height: 120px; max-height: 200px; }
     .card { border-radius: 10px; }
+    .footer { margin-top: 16px; }
   }
 </style>
 </head>
 <body>
 <header>
-  <h1>Dictado Profesional</h1>
+  <h1>Dictado<span>.</span></h1>
+  <p>Dictá con voz, puntuá con comandos</p>
 </header>
 <div class="no-support" id="noSupport">
   Tu navegador no soporta reconocimiento de voz. Por favor usá <strong>Google Chrome</strong> en Android o PC.
@@ -288,6 +311,7 @@
     <div class="cmd-item"><span class="voice">"borrar última palabra"</span><span class="symbol">borrar</span></div>
   </div>
 </div>
+<div class="footer">hecho por <a href="https://github.com/olivadevs" target="_blank" rel="noopener">oliva devs</a></div>
 <div class="toast" id="toast"></div>
 <script>
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
